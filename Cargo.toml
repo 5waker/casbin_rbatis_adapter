@@ -16,11 +16,11 @@ casbin = { version = "2.0.9", default-features = false, features = ["logging", "
 serde = { version = "1", features = ["derive"] }
 async-trait = "0.1"
 # rbatis integration
-rbs = "4.2"
-rbatis = "4.2"
+rbs = "4.3"
+rbatis = "4.3"
 
 [dev-dependencies]
-rbdc-mysql = "4.2"
+rbdc-mysql = "4.3"
 
 
 [[example]]
@@ -29,7 +29,7 @@ path = "examples/mysql_sample.rs"
 
 [features]
 default=[
-    "runtime-async-std"
+    "runtime-tokio"
 ]
 runtime-async-std = ["casbin/runtime-async-std"]
 runtime-tokio = ["casbin/runtime-tokio"]
