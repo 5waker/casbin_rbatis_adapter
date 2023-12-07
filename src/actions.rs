@@ -47,9 +47,10 @@ pub async fn new(rb: &rbatis::RBatis) -> Result<()> {
         )
     };
 
-    rb.query_decode(&sql_statment, vec![])
+    rb.query(&sql_statment, vec![])
         .await
-        .map_err(|err| CasbinError::from(AdapterError(Box::new(err))))
+        .map_err(|err| CasbinError::from(AdapterError(Box::new(err))))?;
+    Ok(())
 }
 
 pub(crate) async fn clear_policy(rb: &RBatis) -> Result<()> {
