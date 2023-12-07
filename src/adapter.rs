@@ -36,7 +36,7 @@ impl CasbinRbatisAdapter {
 
 #[async_trait]
 impl Adapter for CasbinRbatisAdapter {
-    async fn load_policy(&self, m: &mut dyn Model) -> Result<()> {
+    async fn load_policy(&mut self, m: &mut dyn Model) -> Result<()> {
         let mut rb = self.rbatis.clone();
 
         // #[cfg(feature = "runtime-tokio")]
@@ -320,7 +320,7 @@ mod test {
     use std::thread;
 
     use casbin::error::{AdapterError, Error as CasbinError};
-    use rbatis::Rbatis;
+    use rbatis::RBatis;
     use rbdc_mysql::driver::MysqlDriver;
 
     use crate::{
@@ -348,12 +348,12 @@ mod test {
                 v5: Some("".to_string()),
             };
 
-            let rb = Rbatis::new();
+            let rb = RBatis::new();
             rb.init(MysqlDriver {}, url)
                 .map_err(|err| CasbinError::from(AdapterError(Box::new(err))))
                 .unwrap();
-            let pool = rb.get_pool().map_err(|err| CasbinError::from(AdapterError(Box::new(err)))).unwrap();
-            pool.resize(3);
+            // let pool = rb.get_pool().map_err(|err| CasbinError::from(AdapterError(Box::new(err)))).unwrap();
+            // pool.set_max_open_conns(3);
 
             let mut cra = CasbinRbatisAdapter::new(rb, true).await.unwrap();
             println!("casbin adapter is {cra:?}");
